@@ -1,0 +1,33 @@
+# Git & GitHub
+.git
+.gitignore
+.github
+
+# IDE
+.idea
+*.iml
+.classpath
+.project
+.settings/
+
+# Build output
+target/
+build/
+
+# Logs
+*.log
+logs/
+
+# Environment files
+.env
+.env.*
+
+# OS system files
+.DS_Store
+Thumbs.db
+
+# docker files (optional)
+docker-compose.yml
+docker-compose.override.yml
+docker/Dockerfile.dev
+compose.yml

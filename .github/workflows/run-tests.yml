@@ -1,0 +1,71 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - test
+
+jobs:
+  Test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Set environment variables
+        run: echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-7)" >> $GITHUB_ENV
+
+      - name: environment_variables
+        run: echo "::set-output name=GITHUB_SHA_SHORT::$(echo $GITHUB_SHA_SHORT)"
+        id: AWS
+
+      - name: maven error tests messages
+        run: echo "::set-output name=msg::$(mvn test -Dsurefire.useFile=false | grep 'ERROR' | head -4 | tail -1 | cut -d' ' -f2-)"
+        id: mvn_test_error
+
+      - name: maven error tests messages
+        run: echo "::set-output name=msg::$(mvn test -Dsurefire.useFile=false | grep 'ERROR' | head -4 | tail -1 | cut -d' ' -f2- | rev | cut -c 35- | rev)"
+        id: mvn_test_error_short
+
+      - name: Run Unit Tests
+        id: run_tests
+        run: mvn test
+
+      - name: Run Integration Tests
+        id: run_integration_tests
+        run: mvn verify
+
+      - name: Create an issue
+        if: ${{ failure() }}
+        uses: JasonEtco/create-an-issue@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          actor: ${{ github.actor }}
+          test: duplicate
+          sha: ${{ steps.AWS.outputs.GITHUB_SHA_SHORT }}
+          error: ${{ steps.mvn_test_error.outputs.msg }}
+          error_short: ${{ steps.mvn_test_error_short.outputs.msg }}
+        with:
+          assignees: ${{ github.actor }}
+          update_existing: true
+          search_existing: open
+
+      - name: pull-request
+        if: ${{ success() }}
+        uses: repo-sync/pull-request@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.MYWORKFLOW  }}
+        with:
+          source_branch: "test"
+          destination_branch: "main"
+          pr_title: ${{ github.event.head_commit.message }}
+          pr_body: ${{ github.event.head_commit.message }}
+          pr_label: "Staging,TestsPassed"
+          pr_assignee: "damouu"
