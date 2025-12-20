@@ -12,6 +12,6 @@ import lombok.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EventData {
 
-    @JsonProperty("inventory_data")
-    private InventoryDataEvent inventoryData;
+    @JsonProperty("notification_data")
+    private BorrowNotificationDataEvent notificationData;
 }
