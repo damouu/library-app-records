@@ -10,20 +10,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class KafkaListeners {
 
-    private final BookService bookService;
+    private final LoanService loanService;
 
     @Autowired
-    public KafkaListeners(BookService bookService) {
-        this.bookService = bookService;
+    public KafkaListeners(LoanService loanService) {
+        this.loanService = loanService;
     }
 
-    @KafkaListener(topics = "library.borrow.v1", groupId = "groupId", containerFactory = "factory")
+    @KafkaListener(topics = "library.borrow.v1", groupId = "records-group", containerFactory = "factory")
     void listenerBorrow(@Payload BorrowEventPayload BorrowEventPayload) {
-        bookService.listenerBorrowBooks(BorrowEventPayload, true);
+        loanService.borrowBooks(BorrowEventPayload);
     }
 
-    @KafkaListener(topics = "library.return.v1", groupId = "groupId", containerFactory = "factory")
+    @KafkaListener(topics = "library.return.v1", groupId = "records-group", containerFactory = "factory")
     void listenerReturn(@Payload ReturnEventPayload returnEventPayload) {
-        bookService.listenerReturnBorrowedBooks(returnEventPayload, false);
+        loanService.returnBorrowBooks(returnEventPayload);
     }
 }
