@@ -10,8 +10,8 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class EventData {
+public class ReturnEventData {
 
     @JsonProperty("notification_data")
-    private BorrowNotificationDataEvent notificationData;
+    private ReturnNotificationDataEvent notificationData;
 }

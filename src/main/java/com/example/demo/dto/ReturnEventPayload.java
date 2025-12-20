@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 public class ReturnEventPayload {
 
-    private EventData data;
+    private ReturnEventData data;
 
     private Metadata metadata;
 
