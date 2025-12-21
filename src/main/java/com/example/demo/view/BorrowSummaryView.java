@@ -3,6 +3,7 @@ package com.example.demo.view;
 import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Subselect;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
@@ -19,29 +20,22 @@ import java.util.UUID;
 @Setter
 @TypeDef(name = "jsonb", typeClass = JsonType.class)
 @org.hibernate.annotations.Immutable
-@Entity
+@Subselect("SELECT * FROM record")
 public class BorrowSummaryView {
 
     @Id
-    @Column(name = "borrow_uuid")
     private UUID borrowUuid;
 
-    @Column(name = "borrow_return_date")
     private LocalDate borrowReturnDate;
 
-    @Column(name = "borrow_end_date")
     private LocalDate borrowEndDate;
 
-    @Column(name = "borrow_start_date")
     private LocalDate borrowStartDate;
 
-    @Column(name = "days_late")
     private Integer daysLate;
 
-    @Column(name = "late_fee")
     private BigDecimal lateFee;
 
-    @Column(name = "return_lately")
     private Boolean returnLately;
 
     @Type(type = "jsonb")

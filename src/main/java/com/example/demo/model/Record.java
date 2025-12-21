@@ -30,44 +30,37 @@ public class Record {
     @SequenceGenerator(name = "book_sequence", allocationSize = 1, sequenceName = "book_sequence")
     private int id;
 
-    @Column(nullable = false, name = "member_card_uuid")
+    @Column(nullable = false, updatable = false)
     private UUID memberCardUuid;
 
-    @Column(name = "return_lately")
     private Boolean returnLately;
 
-    @Column(name = "days_late")
     private Integer daysLate;
 
-    @Column(name = "late_fee")
     private BigDecimal lateFee;
 
-    @Column(nullable = false, name = "borrow_uuid")
+    @Column(nullable = false, updatable = false, unique = true)
     private UUID borrowUuid;
 
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
     private List<ChapterDetails> chapters;
 
-    @Column(name = "borrow_start_date", nullable = false, columnDefinition = "Date")
+    @Column(nullable = false)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     @Getter(onMethod = @__(@JsonIgnore))
-    @Setter
     private LocalDate borrowStartDate;
 
-    @Column(name = "borrow_end_date", nullable = false, columnDefinition = "Date")
+    @Column(nullable = false)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     @Getter(onMethod = @__(@JsonIgnore))
-    @Setter
     private LocalDate borrowEndDate;
 
-    @Column(name = "borrow_return_date", columnDefinition = "Date")
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     @Getter(onMethod = @__(@JsonIgnore))
-    @Setter
     private LocalDate borrowReturnDate;
 
     public void updateReturnInfo(ReturnEventPayload data) {
