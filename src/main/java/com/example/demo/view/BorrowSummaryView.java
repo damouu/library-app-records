@@ -18,6 +18,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
+@Entity
 @TypeDef(name = "jsonb", typeClass = JsonType.class)
 @org.hibernate.annotations.Immutable
 @Subselect("SELECT * FROM record")
