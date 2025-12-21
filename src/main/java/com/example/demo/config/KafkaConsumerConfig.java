@@ -22,12 +22,12 @@ public class KafkaConsumerConfig {
 
     public Map<String, Object> baseConsumerConfig() {
         Map<String, Object> props = new HashMap<>();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        props.put(JsonDeserializer.USE_TYPE_INFO_HEADERS, true);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "records-group");
+        props.put(JsonDeserializer.TRUSTED_PACKAGES, "com.example.demo.dto");
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
-        props.put(JsonDeserializer.TRUSTED_PACKAGES, "com.example.demo.dto");
-        props.put(JsonDeserializer.USE_TYPE_INFO_HEADERS, true);
         props.put(ErrorHandlingDeserializer.KEY_DESERIALIZER_CLASS, UUIDDeserializer.class);
         props.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class);
         return props;
