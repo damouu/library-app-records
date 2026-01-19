@@ -197,35 +197,38 @@
                         <configuration>
                             <rules>
                                 <rule>
-                                    <element>PACKAGE</element>
+                                    <element>CLASS</element>
                                     <includes>
-                                        <include>com.example.demo.service*</include>
+                                        <include>com.example.demo.service.RecordService</include>
                                     </includes>
                                     <limits>
                                         <limit>
                                             <counter>LINE</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.90</minimum>
+                                            <minimum>1.0</minimum>
                                         </limit>
                                         <limit>
                                             <counter>COMPLEXITY</counter>
                                             <value>MISSEDCOUNT</value>
-                                            <maximum>1</maximum>
+                                            <maximum>0</maximum>
                                         </limit>
                                     </limits>
                                 </rule>
                                 <rule>
-                                    <element>METHOD</element>
+                                    <element>CLASS</element>
+                                    <includes>
+                                        <include>com.example.demo.service.RecordService</include>
+                                    </includes>
                                     <limits>
                                         <limit>
                                             <counter>COMPLEXITY</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.00</minimum>
+                                            <minimum>1.0</minimum>
                                         </limit>
                                         <limit>
                                             <counter>COMPLEXITY</counter>
                                             <value>TOTALCOUNT</value>
-                                            <maximum>3</maximum>
+                                            <maximum>5</maximum>
                                         </limit>
                                     </limits>
                                 </rule>
@@ -234,13 +237,10 @@
                     </execution>
                 </executions>
             </plugin>
-
-
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
