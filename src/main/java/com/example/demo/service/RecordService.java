@@ -3,7 +3,7 @@ package com.example.demo.service;
 import com.example.demo.repository.RecordSummaryRepository;
 import com.example.demo.utils.PaginationUtil;
 import com.example.demo.view.BorrowSummaryView;
-import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,8 +16,8 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.*;
 
 
-@Data
 @Service
+@RequiredArgsConstructor
 public class RecordService {
 
     private final RecordSummaryRepository recordSummaryRepository;
