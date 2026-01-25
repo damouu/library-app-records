@@ -14,9 +14,11 @@
     <artifactId>records-service</artifactId>
     <version>2.0.0-SNAPSHOT</version>
 
-    <name>図書館 Records Service</name>
+    <name>図書館システム 利用履歴サービス</name>
     <description>
-        図書館システムの書籍データ在庫の状況を提供し、 フロントエンドに在庫状況を供給するAPI。
+        図書館システムにおける貸出および返却履歴を管理するサービスです。
+        Kafka から貸出・返却イベントを消費し、
+        ユーザーごとの貸出履歴を REST API としてフロントエンドに提供します。
     </description>
 
     <properties>
