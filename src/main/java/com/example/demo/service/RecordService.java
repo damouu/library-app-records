@@ -41,15 +41,24 @@ public class RecordService {
             }
             for (BorrowSummaryView borrowSummaryView : borrowSummaries) {
                 HashMap<String, Object> dede = new LinkedHashMap<>();
-                List<Object> books = new ArrayList<>(borrowSummaryView.getBookDetails().getFirst().values());
-                var popo = books.getFirst();
+                Map<String, Object> details = borrowSummaryView.getBookDetails().getFirst();
+                List<Map<String, Object>> chaptersList = (List<Map<String, Object>>) details.get("chapters");
+                List<Map<String, Object>> booksList = (List<Map<String, Object>>) details.get("books");
+                if (chaptersList != null && booksList != null) {
+                    int size2 = Math.min(chaptersList.size(), booksList.size());
+                    for (int i = 0; i < size2; i++) {
+                        Map<String, Object> chapter = chaptersList.get(i);
+                        Map<String, Object> book = booksList.get(i);
+                        chapter.put("book_uuid", book.get("book_uuid"));
+                    }
+                }
                 dede.put("borrow_start_date", String.valueOf(borrowSummaryView.getBorrowStartDate()));
                 dede.put("borrow_expected_end_date", String.valueOf(borrowSummaryView.getBorrowEndDate()));
                 dede.put("borrow_return_date", String.valueOf(borrowSummaryView.getBorrowReturnDate()));
                 dede.put("return_lately", borrowSummaryView.getReturnLately());
                 dede.put("days_late", borrowSummaryView.getDaysLate());
                 dede.put("late_fee", borrowSummaryView.getLateFee());
-                dede.put("chapters", popo);
+                dede.put("chapters", chaptersList);
                 borrow_history.put(String.valueOf(borrowSummaryView.getBorrowUuid()), dede);
             }
         }
