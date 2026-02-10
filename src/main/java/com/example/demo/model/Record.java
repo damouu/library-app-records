@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.example.demo.dto.BookToDecrement;
 import com.example.demo.dto.ChapterDetails;
 import com.example.demo.dto.ReturnEventPayload;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -45,6 +46,10 @@ public class Record {
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
     private List<ChapterDetails> chapters;
+
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
+    private List<BookToDecrement> books;
 
     @Column(nullable = false)
     @JsonDeserialize(using = LocalDateDeserializer.class)
