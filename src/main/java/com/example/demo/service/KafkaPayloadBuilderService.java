@@ -11,8 +11,16 @@ public class KafkaPayloadBuilderService {
 
     public Record buildBorrowEntities(BorrowEventPayload payload) {
         var notificationData = payload.getData().getNotificationData();
+        var inventoryData = payload.getData().getInventoryData().getBooks();
         var metadata = payload.getMetadata();
 
-        return Record.builder().borrowUuid(notificationData.getBorrowUuid()).memberCardUuid(metadata.getMemberCardUUID()).borrowStartDate(LocalDate.parse(notificationData.getBorrowStartDate())).borrowEndDate(LocalDate.parse(notificationData.getBorrowEndDate())).chapters(notificationData.getChapters()).build();
+        return Record.builder()
+                .borrowUuid(notificationData.getBorrowUuid())
+                .memberCardUuid(metadata.getMemberCardUUID())
+                .borrowStartDate(LocalDate.parse(notificationData.getBorrowStartDate()))
+                .borrowEndDate(LocalDate.parse(notificationData.getBorrowEndDate()))
+                .chapters(notificationData.getChapters())
+                .books(inventoryData)
+                .build();
     }
 }
