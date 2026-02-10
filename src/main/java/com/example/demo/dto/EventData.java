@@ -14,4 +14,7 @@ public class EventData {
 
     @JsonProperty("notification_data")
     private BorrowNotificationDataEvent notificationData;
+
+    @JsonProperty("inventory_data")
+    private InventoryDataEvent inventoryData;
 }
