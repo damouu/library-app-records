@@ -69,7 +69,7 @@ jobs:
 
       - name: pull-request
         if: ${{ success() }}
-        uses: peter-evans/create-pull-request@v7
+        uses: repo-sync/pull-request@v2
         env:
           GITHUB_TOKEN: ${{ secrets.MYWORKFLOW  }}
         with:
