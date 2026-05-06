@@ -5,7 +5,6 @@ import com.example.demo.dto.ReturnEventPayload;
 import com.example.demo.model.Record;
 import com.example.demo.repository.BorrowRepository;
 import com.example.demo.repository.RecordSummaryRepository;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-@Data
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
