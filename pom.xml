@@ -183,6 +183,11 @@
                         <exclude>com/example/demo/DemoApplication.class</exclude>
                         <exclude>**/dto/**</exclude>
                         <exclude>**/view/**</exclude>
+                        <exclude>**/*$*</exclude>
+                        <exclude>**/generated/**</exclude>
+                        <exclude>**/model/**</exclude>
+                        <exclude>**/entity/**</exclude>
+                        <exclude>**/*Config.class</exclude>
                     </excludes>
                 </configuration>
 
