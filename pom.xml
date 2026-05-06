@@ -186,7 +186,6 @@
                         <exclude>**/*$*</exclude>
                         <exclude>**/generated/**</exclude>
                         <exclude>**/model/**</exclude>
-                        <exclude>**/entity/**</exclude>
                         <exclude>**/*Config.class</exclude>
                     </excludes>
                 </configuration>
@@ -231,15 +230,33 @@
                                         <limit>
                                             <counter>LINE</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.80</minimum>
+                                            <minimum>0.90</minimum>
                                         </limit>
 
                                         <limit>
                                             <counter>COMPLEXITY</counter>
                                             <value>MISSEDCOUNT</value>
-                                            <maximum>3</maximum>
+                                            <maximum>2</maximum>
                                         </limit>
 
+                                    </limits>
+                                </rule>
+                                <rule>
+                                    <element>CLASS</element>
+                                    <includes>
+                                        <include>com.example.demo.service.*</include>
+                                    </includes>
+                                    <limits>
+                                        <limit>
+                                            <counter>COMPLEXITY</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.80</minimum>
+                                        </limit>
+                                        <limit>
+                                            <counter>COMPLEXITY</counter>
+                                            <value>TOTALCOUNT</value>
+                                            <maximum>8</maximum>
+                                        </limit>
                                     </limits>
                                 </rule>
                             </rules>
