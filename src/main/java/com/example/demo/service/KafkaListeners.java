@@ -18,12 +18,12 @@ public class KafkaListeners {
     }
 
     @KafkaListener(topics = "library.borrow.v1", groupId = "records-group", containerFactory = "factory")
-    void listenerBorrow(@Payload BorrowEventPayload BorrowEventPayload) {
+    public void listenerBorrow(@Payload BorrowEventPayload BorrowEventPayload) {
         loanService.borrowBooks(BorrowEventPayload);
     }
 
     @KafkaListener(topics = "library.return.v1", groupId = "records-group", containerFactory = "factory")
-    void listenerReturn(@Payload ReturnEventPayload returnEventPayload) {
+    public void listenerReturn(@Payload ReturnEventPayload returnEventPayload) {
         loanService.returnBorrowBooks(returnEventPayload);
     }
 }
