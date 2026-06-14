@@ -7,10 +7,10 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReturnEventPayload {
-
-    private ReturnEventData data;
+public class ReturnCreatedEvent {
 
     private Metadata metadata;
+
+    private ReturnCreatedEventData data;
 
 }
