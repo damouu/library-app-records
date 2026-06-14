@@ -1,6 +1,6 @@
 package com.example.demo.repository;
 
-import com.example.demo.model.Record;
+import com.example.demo.model.BorrowRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface BorrowRepository extends JpaRepository<Record, Integer>, JpaSpecificationExecutor<Record> {
+public interface BorrowRepository extends JpaRepository<BorrowRecord, Integer>, JpaSpecificationExecutor<BorrowRecord> {
 
-    Optional<Record> findBorrowByBorrowUuid(UUID borrowUuid);
+    Optional<BorrowRecord> findBorrowByBorrowUuid(UUID borrowUuid);
 }
