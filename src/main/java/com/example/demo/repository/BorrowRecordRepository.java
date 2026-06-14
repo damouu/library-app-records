@@ -9,7 +9,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface BorrowRepository extends JpaRepository<BorrowRecord, Integer>, JpaSpecificationExecutor<BorrowRecord> {
+public interface BorrowRecordRepository extends JpaRepository<BorrowRecord, Integer>, JpaSpecificationExecutor<BorrowRecord> {
 
     Optional<BorrowRecord> findBorrowByBorrowUuid(UUID borrowUuid);
+
+    boolean existsByBorrowUuid(UUID borrowUuid);
 }

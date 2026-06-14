@@ -2,14 +2,15 @@ package com.example.demo.dto;
 
 import lombok.*;
 
-import java.util.List;
-
 @Getter
 @Setter
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class InventoryDataEvent {
+public class ReturnCreatedEvent {
 
-    private List<BookToDecrement> books;
+    private Metadata metadata;
+
+    private ReturnCreatedEventData data;
+
 }

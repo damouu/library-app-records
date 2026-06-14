@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class RecordControllerTest {
+class BorrowRecordControllerTest {
 
     @Mock
     private RecordService recordService;

@@ -1,15 +1,16 @@
 package com.example.demo.dto;
 
+
 import lombok.*;
 
 import java.util.UUID;
 
 @Getter
 @Setter
-@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookToDecrement {
+public class BorrowedItem {
 
     private UUID book_uuid;
 

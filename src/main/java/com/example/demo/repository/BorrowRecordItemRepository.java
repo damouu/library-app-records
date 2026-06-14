@@ -5,11 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-import java.util.UUID;
-
 @Repository
-public interface BorrowRepository extends JpaRepository<BorrowRecord, Integer>, JpaSpecificationExecutor<BorrowRecord> {
+public interface BorrowRecordItemRepository extends JpaRepository<com.example.demo.model.BorrowRecordItem, Integer>, JpaSpecificationExecutor<BorrowRecord> {
 
-    Optional<BorrowRecord> findBorrowByBorrowUuid(UUID borrowUuid);
 }
