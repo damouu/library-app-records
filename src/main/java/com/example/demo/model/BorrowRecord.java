@@ -57,10 +57,10 @@ public class BorrowRecord {
     private BigDecimal lateFee;
 
     public void updateReturnInfo(ReturnCreatedEvent data) {
-        this.borrowReturnDate = LocalDate.parse(data.getData().getBorrow_return_date());
-        this.daysLate = data.getData().getDays_late();
-        this.returnLately = data.getData().isReturn_lately();
-        this.lateFee = data.getData().getLate_fee();
+        this.borrowReturnDate = LocalDate.parse(data.data().borrow_return_date());
+        this.daysLate = data.data().days_late();
+        this.returnLately = data.data().return_lately();
+        this.lateFee = data.data().late_fee();
     }
 
 }
