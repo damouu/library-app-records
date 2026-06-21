@@ -1,21 +1,15 @@
 package com.example.demo.dto;
 
-import lombok.*;
-
 import java.util.UUID;
 
-@Data
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class Metadata {
 
-    private String timestamp;
+public record Metadata(
+        String timestamp,
 
-    private String source_service;
+        String source_service,
 
-    private String event_type;
+        String event_type,
 
-    private UUID event_uuid;
+        UUID event_uuid
+) {
 }

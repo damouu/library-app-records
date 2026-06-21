@@ -12,10 +12,10 @@ public class BorrowRecordMapper {
     public BorrowRecord toEventData(BorrowCreatedEvent event) {
 
         return BorrowRecord.builder()
-                .borrowUuid(event.getData().getBorrow_uuid())
-                .memberCardUuid(event.getData().getMember_card_uuid())
-                .borrowStartDate(LocalDate.parse(event.getData().getBorrow_start_date()))
-                .borrowEndDate(LocalDate.parse(event.getData().getBorrow_end_date()))
+                .borrowUuid(event.data().borrow_uuid())
+                .memberCardUuid(event.data().member_card_uuid())
+                .borrowStartDate(LocalDate.parse(event.data().borrow_start_date()))
+                .borrowEndDate(LocalDate.parse(event.data().borrow_end_date()))
                 .build();
     }
 }

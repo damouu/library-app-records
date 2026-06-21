@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -22,11 +21,19 @@ public class BorrowSummaryMapper {
 
         List<ChapterSummaryDTO> chapters = parseChapters(projection.getBorrowDetails());
 
-        return BorrowSummaryDTO.builder().borrowUuid(UUID.fromString(projection.getBorrowUuid())).borrowStartDate(projection.getBorrowStartDate()).borrowEndDate(projection.getBorrowEndDate()).borrowReturnDate(projection.getBorrowReturnDate()).daysLate(projection.getDaysLate()).lateFee(projection.getLateFee()).returnLately(projection.getReturnLately()).chapters(chapters).build();
+        return new BorrowSummaryDTO(
+                projection.getBorrowUuid(),
+                projection.getBorrowStartDate(),
+                projection.getBorrowEndDate(),
+                projection.getBorrowReturnDate(),
+                projection.getDaysLate(),
+                projection.getLateFee(),
+                projection.getReturnLately(),
+                chapters
+        );
     }
 
     private List<ChapterSummaryDTO> parseChapters(String borrowDetails) {
-
         if (borrowDetails == null || borrowDetails.isBlank()) {
             return List.of();
         }

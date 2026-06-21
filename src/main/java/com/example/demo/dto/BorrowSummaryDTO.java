@@ -1,34 +1,25 @@
 package com.example.demo.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class BorrowSummaryDTO {
 
-    private UUID borrowUuid;
+public record BorrowSummaryDTO(
+        String borrowUuid,
 
-    private LocalDate borrowStartDate;
+        LocalDate borrowStartDate,
 
-    private LocalDate borrowEndDate;
+        LocalDate borrowEndDate,
 
-    private LocalDate borrowReturnDate;
+        LocalDate borrowReturnDate,
 
-    private Integer daysLate;
+        Integer daysLate,
 
-    private BigDecimal lateFee;
+        BigDecimal lateFee,
 
-    private Boolean returnLately;
+        Boolean returnLately,
 
-    private List<ChapterSummaryDTO> chapters;
+        List<ChapterSummaryDTO> chapters
+) {
 }

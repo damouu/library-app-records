@@ -12,13 +12,13 @@ public class ChapterMapper {
     public ChapterProjection toEventData(ChapterCreatedEvent chapter) {
 
         return ChapterProjection.builder()
-                .chapterUuid(chapter.getData().getChapter_uuid())
-                .seriesUuid(chapter.getData().getSeries_uuid())
-                .title(chapter.getData().getTitle())
-                .secondTitle(chapter.getData().getSecond_title())
-                .chapterNumber(chapter.getData().getChapter_number())
-                .coverArtworkUrl(chapter.getData().getCover_artwork_url())
-                .publicationDate(LocalDate.parse(chapter.getData().getPublication_date()))
+                .chapterUuid(chapter.data().chapter_uuid())
+                .seriesUuid(chapter.data().series_uuid())
+                .title(chapter.data().title())
+                .secondTitle(chapter.data().second_title())
+                .chapterNumber(chapter.data().chapter_number())
+                .coverArtworkUrl(chapter.data().cover_artwork_url())
+                .publicationDate(LocalDate.parse(chapter.data().publication_date()))
                 .build();
     }
 

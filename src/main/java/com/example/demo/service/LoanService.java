@@ -48,13 +48,13 @@ public class LoanService {
      */
     @Transactional
     public void borrowBooks(BorrowCreatedEvent payload) {
-        UUID borrowUuid = payload.getData().getBorrow_uuid();
+        UUID borrowUuid = payload.data().borrow_uuid();
         if (borrowRecordRepository.existsByBorrowUuid(borrowUuid)) {
             log.info("Borrow {} already processed", borrowUuid);
             return;
         }
         BorrowRecord borrow = payloadBuilderService.buildBorrowEntities(payload);
-        List<UUID> chapterUuids = payload.getData().getBorrowed_items().stream().map(BorrowedItem::getChapter_uuid).toList();
+        List<UUID> chapterUuids = payload.data().borrowed_items().stream().map(BorrowedItem::chapter_uuid).toList();
         List<ChapterProjection> chapters = chapterRepository.findByChapterUuidIn(chapterUuids);
         if (chapters.size() != chapterUuids.size()) {
             throw new IllegalStateException("Missing chapter projections");
@@ -73,7 +73,7 @@ public class LoanService {
      */
     @Transactional
     public void returnBorrowBooks(ReturnCreatedEvent returnCreatedEvent) {
-        UUID borrowUuid = returnCreatedEvent.getMetadata().getEvent_uuid();
+        UUID borrowUuid = returnCreatedEvent.metadata().event_uuid();
         borrowRepository.findBorrowByBorrowUuid(borrowUuid).ifPresentOrElse(record -> {
             record.updateReturnInfo(returnCreatedEvent);
             log.info("Updated borrow record for UUID: {}", borrowUuid);

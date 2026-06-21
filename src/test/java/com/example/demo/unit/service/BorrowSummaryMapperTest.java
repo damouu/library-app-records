@@ -33,7 +33,7 @@ class BorrowSummaryMapperTest {
         when(projection.getBorrowUuid()).thenReturn("123e4567-e89b-12d3-a456-426614174000");
         when(projection.getBorrowDetails()).thenReturn(null);
         BorrowSummaryDTO dto = borrowSummaryMapper.toDto(projection);
-        assertEquals(0, dto.getChapters().size());
+        assertEquals(0, dto.chapters().size());
     }
 
     @Test
@@ -42,7 +42,7 @@ class BorrowSummaryMapperTest {
         when(projection.getBorrowUuid()).thenReturn("123e4567-e89b-12d3-a456-426614174000");
         when(projection.getBorrowDetails()).thenReturn("");
         BorrowSummaryDTO dto = borrowSummaryMapper.toDto(projection);
-        assertTrue(dto.getChapters().isEmpty());
+        assertTrue(dto.chapters().isEmpty());
     }
 
     @Test

@@ -1,7 +1,6 @@
 package com.example.demo.unit.service;
 
-import com.example.demo.dto.BorrowCreatedEvent;
-import com.example.demo.dto.ChapterCreatedEvent;
+import com.example.demo.dto.*;
 import com.example.demo.mapper.BorrowRecordMapper;
 import com.example.demo.mapper.ChapterMapper;
 import com.example.demo.model.BorrowRecord;
@@ -13,10 +12,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDate;
+import java.util.List;
+import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class KafkaPayloadBuilderServiceTest {
@@ -31,43 +30,29 @@ class KafkaPayloadBuilderServiceTest {
     @Test
     @DisplayName("Should build BorrowRecord from BorrowCreatedEvent")
     void testBuildBorrowEntities() {
-
-        BorrowCreatedEvent borrowCreatedEvent = Instancio.create(BorrowCreatedEvent.class);
-
-        borrowCreatedEvent.getData().setBorrow_start_date(LocalDate.now().toString());
-
-        borrowCreatedEvent.getData().setBorrow_end_date(LocalDate.now().plusDays(5).toString());
-
+        UUID borrowUuid = UUID.randomUUID();
+        UUID memberCardUuid = UUID.randomUUID();
+        BorrowCreatedEvent borrowCreatedEvent = new BorrowCreatedEvent(new Metadata("2026-06-21T10:00:00Z", "library-app-borrow-v1", "BORROW_CREATED", UUID.randomUUID()), new BorrowCreatedEventData(memberCardUuid, borrowUuid, "2026-06-21", "2026-07-21", List.of(new BorrowedItem(UUID.randomUUID(), UUID.randomUUID()))));
         BorrowRecord borrowRecord = service.buildBorrowEntities(borrowCreatedEvent);
-
-        assertEquals(borrowCreatedEvent.getData().getBorrow_uuid(), borrowRecord.getBorrowUuid());
-
-        assertEquals(borrowCreatedEvent.getData().getMember_card_uuid(), borrowRecord.getMemberCardUuid());
-
+        assertEquals(borrowUuid, borrowRecord.getBorrowUuid());
+        assertEquals(memberCardUuid, borrowRecord.getMemberCardUuid());
         assertNotNull(borrowRecord.getBorrowStartDate());
         assertNotNull(borrowRecord.getBorrowEndDate());
-
-        assertEquals(null, borrowRecord.getReturnLately());
-        assertEquals(null, borrowRecord.getDaysLate());
+        assertNull(borrowRecord.getReturnLately());
+        assertNull(borrowRecord.getDaysLate());
     }
 
 
     @Test
     @DisplayName("Should build ChapterProjection from ChapterCreatedEvent")
     void testBuildChapterEntities() {
-
-        ChapterCreatedEvent event = Instancio.create(ChapterCreatedEvent.class);
-
-        event.getData().setPublication_date(LocalDate.now().toString());
-
+        UUID borrowUuid = UUID.randomUUID();
+        UUID memberCardUuid = UUID.randomUUID();
+        ChapterCreatedEvent event = new ChapterCreatedEvent(new Metadata("2026-06-21T10:00:00Z", "library-app-catalogue-v1", "CHAPTER_CREATED", UUID.randomUUID()), new ChapterCreatedEventData(memberCardUuid, borrowUuid, "2026-06-21", "2026-07-21", 2, 2, "dde", "dede", "2026-07-21", 1));
         ChapterProjection result = service.buildChapterEntities(event);
-
         assertNotNull(result);
-
-        assertEquals(event.getData().getChapter_uuid(), result.getChapterUuid());
-
-        assertEquals(event.getData().getTitle(), result.getTitle());
-
-        assertEquals(event.getData().getChapter_number(), result.getChapterNumber());
+        assertEquals(event.data().chapter_uuid(), result.getChapterUuid());
+        assertEquals(event.data().title(), result.getTitle());
+        assertEquals(event.data().chapter_number(), result.getChapterNumber());
     }
 }

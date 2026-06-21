@@ -5,6 +5,7 @@ import com.example.demo.mapper.BorrowSummaryMapper;
 import com.example.demo.repository.RecordSummaryProjection;
 import com.example.demo.repository.RecordSummaryRepository;
 import com.example.demo.service.RecordService;
+import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -35,7 +36,7 @@ class BorrowRecordServiceTest {
         UUID memberCardUUID = UUID.randomUUID();
         Pageable pageable = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "borrowStartDate"));
         RecordSummaryProjection projection = mock(RecordSummaryProjection.class);
-        BorrowSummaryDTO dto = BorrowSummaryDTO.builder().borrowUuid(UUID.randomUUID()).build();
+        BorrowSummaryDTO dto = Instancio.of(BorrowSummaryDTO.class).create();
         Page<RecordSummaryProjection> repositoryPage = new PageImpl<>(List.of(projection));
         when(recordSummaryRepository.getRecordSummaries(memberCardUUID, pageable)).thenReturn(repositoryPage);
         when(borrowSummaryMapper.toDto(projection)).thenReturn(dto);
@@ -43,6 +44,6 @@ class BorrowRecordServiceTest {
         verify(recordSummaryRepository).getRecordSummaries(memberCardUUID, pageable);
         verify(borrowSummaryMapper).toDto(projection);
         assertEquals(1, result.getContent().size());
-        assertEquals(dto.getBorrowUuid(), result.getContent().getFirst().getBorrowUuid());
+        assertEquals(dto.borrowUuid(), result.getContent().getFirst().borrowUuid());
     }
 }

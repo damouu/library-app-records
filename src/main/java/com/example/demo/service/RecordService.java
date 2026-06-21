@@ -36,9 +36,7 @@ public class RecordService {
      * @throws ResponseStatusException the response status exception
      */
     public Page<BorrowSummaryDTO> getHistory(UUID memberCardUUID, Pageable pageable) {
-
         Page<RecordSummaryProjection> result = recordSummaryRepository.getRecordSummaries(memberCardUUID, pageable);
-
         return result.map(borrowSummaryMapper::toDto);
     }
 
