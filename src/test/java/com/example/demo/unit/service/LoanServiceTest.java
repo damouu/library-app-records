@@ -1,8 +1,6 @@
 package com.example.demo.unit.service;
 
-import com.example.demo.dto.BorrowCreatedEvent;
-import com.example.demo.dto.BorrowCreatedEventData;
-import com.example.demo.dto.ReturnCreatedEvent;
+import com.example.demo.dto.*;
 import com.example.demo.mapper.BorrowRecordItemMapper;
 import com.example.demo.model.BorrowRecord;
 import com.example.demo.model.BorrowRecordItem;
@@ -22,7 +20,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -57,8 +54,8 @@ class LoanServiceTest {
 
     @Test
     void testBorrowBooks() {
-        BorrowCreatedEvent event = Instancio.of(BorrowCreatedEvent.class).generate(field(BorrowCreatedEventData::getBorrowed_items), gen -> gen.collection().size(1)).create();
-        UUID chapterUuid = event.getData().getBorrowed_items().getFirst().getChapter_uuid();
+        BorrowCreatedEvent event = Instancio.of(BorrowCreatedEvent.class).generate(field(BorrowCreatedEventData::borrowed_items), gen -> gen.collection().size(1)).create();
+        UUID chapterUuid = event.data().borrowed_items().getFirst().chapter_uuid();
         BorrowRecord borrowRecord = Instancio.create(BorrowRecord.class);
         ChapterProjection chapter = Instancio.create(ChapterProjection.class);
         BorrowRecordItem item = Instancio.create(BorrowRecordItem.class);
@@ -75,67 +72,40 @@ class LoanServiceTest {
     @Test
     @DisplayName("shouldSaveBorrowRecord_whenBorrowEventReceived")
     void testReturnBorrowBooks() {
-        ReturnCreatedEvent returnCreatedEvent = createValidReturnEventPayload();
+        UUID borrowUuid = UUID.randomUUID();
+        UUID memberCardUuid = UUID.randomUUID();
+        ReturnCreatedEvent returnCreatedEvent = new ReturnCreatedEvent(new Metadata("2026-06-21T10:00:00Z", "library-app-catalogue-v1", "CHAPTER_CREATED", UUID.randomUUID()), new ReturnCreatedEventData(memberCardUuid, borrowUuid, "2026-06-21", "2026-07-21", "2026-06-27", false, 0, BigDecimal.valueOf(0), List.of(new BookToDecrement(UUID.randomUUID(), UUID.randomUUID()))));
         BorrowRecord borrowRecord = Instancio.create(BorrowRecord.class);
-        when(borrowRepository.findBorrowByBorrowUuid(returnCreatedEvent.getMetadata().getEvent_uuid())).thenReturn(Optional.ofNullable(borrowRecord));
+        when(borrowRepository.findBorrowByBorrowUuid(returnCreatedEvent.metadata().event_uuid())).thenReturn(Optional.ofNullable(borrowRecord));
         loanService.returnBorrowBooks(returnCreatedEvent);
-        verify(borrowRepository, times(1)).findBorrowByBorrowUuid(returnCreatedEvent.getMetadata().getEvent_uuid());
-    }
-
-    private ReturnCreatedEvent createValidReturnEventPayload() {
-        ReturnCreatedEvent payload = Instancio.create(ReturnCreatedEvent.class);
-
-        var notification = payload.getData();
-
-        notification.setBorrow_start_date(LocalDate.now().toString());
-        notification.setBorrow_end_date(LocalDate.now().plusDays(5).toString());
-        notification.setBorrow_return_date(LocalDate.now().plusDays(3).toString());
-        notification.setDays_late(0);
-        notification.setReturn_lately(false);
-        notification.setLate_fee(BigDecimal.ZERO);
-
-        return payload;
+        verify(borrowRepository, times(1)).findBorrowByBorrowUuid(returnCreatedEvent.metadata().event_uuid());
     }
 
     @Test
     @DisplayName("Should skip processing when borrow already exists")
     void testBorrowAlreadyProcessed() {
-
-        BorrowCreatedEvent event = Instancio.create(BorrowCreatedEvent.class);
-
-        UUID borrowUuid = event.getData().getBorrow_uuid();
-
+        UUID borrowUuid = UUID.randomUUID();
+        UUID memberCardUuid = UUID.randomUUID();
+        BorrowCreatedEvent event = new BorrowCreatedEvent(new Metadata("2026-06-21T10:00:00Z", "library-app-borrow-v1", "BORROW_CREATED", UUID.randomUUID()), new BorrowCreatedEventData(memberCardUuid, borrowUuid, "2026-06-21", "2026-07-21", List.of(new BorrowedItem(UUID.randomUUID(), UUID.randomUUID()))));
         when(borrowRecordRepository.existsByBorrowUuid(borrowUuid)).thenReturn(true);
-
         loanService.borrowBooks(event);
-
         verify(borrowRecordRepository).existsByBorrowUuid(borrowUuid);
-
-        verifyNoInteractions(kafkaPayloadBuilderService, chapterRepository, borrowRecordItemRepository);
+        verify(borrowRecordRepository, never()).save(any());
+        verify(borrowRecordItemRepository, never()).saveAll(any());
     }
 
     @Test
     @DisplayName("Should throw exception when chapter projections are missing")
     void testMissingChapterProjection() {
-
         BorrowCreatedEvent event = Instancio.create(BorrowCreatedEvent.class);
-
-        UUID borrowUuid = event.getData().getBorrow_uuid();
-
+        UUID borrowUuid = event.data().borrow_uuid();
         BorrowRecord borrowRecord = Instancio.create(BorrowRecord.class);
-
         when(borrowRecordRepository.existsByBorrowUuid(borrowUuid)).thenReturn(false);
-
         when(kafkaPayloadBuilderService.buildBorrowEntities(event)).thenReturn(borrowRecord);
-
         List<ChapterProjection> projections = List.of(Instancio.create(ChapterProjection.class));
-
         when(chapterRepository.findByChapterUuidIn(any())).thenReturn(projections);
-
         assertThrows(IllegalStateException.class, () -> loanService.borrowBooks(event));
-
         verify(borrowRecordRepository, never()).save(any());
-
         verify(borrowRecordItemRepository, never()).saveAll(any());
     }
 
