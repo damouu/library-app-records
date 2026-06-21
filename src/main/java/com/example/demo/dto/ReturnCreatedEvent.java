@@ -1,16 +1,9 @@
 package com.example.demo.dto;
 
-import lombok.*;
+public record ReturnCreatedEvent(
 
-@Getter
-@Setter
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class ReturnCreatedEvent {
+        Metadata metadata,
 
-    private Metadata metadata;
-
-    private ReturnCreatedEventData data;
-
+        ReturnCreatedEventData data
+) {
 }
