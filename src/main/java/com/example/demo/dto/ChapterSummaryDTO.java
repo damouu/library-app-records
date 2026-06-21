@@ -1,27 +1,21 @@
 package com.example.demo.dto;
 
-import lombok.*;
-
 import java.util.UUID;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class ChapterSummaryDTO {
 
-    private UUID chapterUuid;
+public record ChapterSummaryDTO(
+        UUID chapterUuid,
 
-    private UUID seriesUuid;
+        UUID seriesUuid,
 
-    private String title;
+        String title,
 
-    private String secondTitle;
+        String secondTitle,
 
-    private Integer chapterNumber;
+        Integer chapterNumber,
 
-    private String coverArtworkUrl;
+        String coverArtworkUrl,
 
-    private String publicationDate;
+        String publicationDate
+) {
 }
