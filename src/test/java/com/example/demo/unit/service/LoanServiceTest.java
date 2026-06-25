@@ -2,6 +2,7 @@ package com.example.demo.unit.service;
 
 import com.example.demo.dto.*;
 import com.example.demo.mapper.BorrowRecordItemMapper;
+import com.example.demo.mapper.BorrowRecordMapper;
 import com.example.demo.model.BorrowRecord;
 import com.example.demo.model.BorrowRecordItem;
 import com.example.demo.model.ChapterProjection;
@@ -9,7 +10,6 @@ import com.example.demo.repository.BorrowRecordItemRepository;
 import com.example.demo.repository.BorrowRecordRepository;
 import com.example.demo.repository.BorrowRepository;
 import com.example.demo.repository.ChapterRepository;
-import com.example.demo.service.KafkaPayloadBuilderService;
 import com.example.demo.service.LoanService;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.DisplayName;
@@ -44,7 +44,7 @@ class LoanServiceTest {
     private BorrowRecordItemMapper borrowRecordItemMapper;
 
     @Mock
-    private KafkaPayloadBuilderService kafkaPayloadBuilderService;
+    private BorrowRecordMapper borrowRecordMapper;
 
     @Mock
     private BorrowRepository borrowRepository;
@@ -60,7 +60,7 @@ class LoanServiceTest {
         ChapterProjection chapter = Instancio.create(ChapterProjection.class);
         BorrowRecordItem item = Instancio.create(BorrowRecordItem.class);
         when(borrowRecordRepository.existsByBorrowUuid(any())).thenReturn(false);
-        when(kafkaPayloadBuilderService.buildBorrowEntities(event)).thenReturn(borrowRecord);
+        when(borrowRecordMapper.toEventData(event)).thenReturn(borrowRecord);
         when(chapterRepository.findByChapterUuidIn(any())).thenReturn(List.of(chapter));
         when(borrowRecordItemMapper.toBorrowRecordItems(any(), any())).thenReturn(List.of(item));
         loanService.borrowBooks(event);
@@ -101,7 +101,7 @@ class LoanServiceTest {
         UUID borrowUuid = event.data().borrow_uuid();
         BorrowRecord borrowRecord = Instancio.create(BorrowRecord.class);
         when(borrowRecordRepository.existsByBorrowUuid(borrowUuid)).thenReturn(false);
-        when(kafkaPayloadBuilderService.buildBorrowEntities(event)).thenReturn(borrowRecord);
+        when(borrowRecordMapper.toEventData(event)).thenReturn(borrowRecord);
         List<ChapterProjection> projections = List.of(Instancio.create(ChapterProjection.class));
         when(chapterRepository.findByChapterUuidIn(any())).thenReturn(projections);
         assertThrows(IllegalStateException.class, () -> loanService.borrowBooks(event));
