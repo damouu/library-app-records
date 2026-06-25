@@ -4,7 +4,7 @@ import com.example.demo.dto.BorrowCreatedEvent;
 import com.example.demo.dto.ChapterCreatedEvent;
 import com.example.demo.dto.ReturnCreatedEvent;
 import com.example.demo.service.CatalogService;
-import com.example.demo.service.KafkaListeners;
+import com.example.demo.messaging.KafkaListeners;
 import com.example.demo.service.LoanService;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.DisplayName;
