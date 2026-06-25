@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.ChapterCreatedEvent;
+import com.example.demo.mapper.ChapterMapper;
 import com.example.demo.model.ChapterProjection;
 import com.example.demo.repository.ChapterRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +16,11 @@ public class CatalogService {
 
     private final ChapterRepository chapterRepository;
 
-    private final KafkaPayloadBuilderService payloadBuilderService;
+    private final ChapterMapper chapterMapper;
 
     @Transactional
     public void insertNewChapters(ChapterCreatedEvent payload) {
-        ChapterProjection chapterProjection = payloadBuilderService.buildChapterEntities(payload);
+        ChapterProjection chapterProjection = chapterMapper.toEventData(payload);
         chapterRepository.save(chapterProjection);
         log.info("saved new chapter");
     }
