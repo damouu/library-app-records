@@ -1,8 +1,10 @@
-package com.example.demo.service;
+package com.example.demo.messaging;
 
 import com.example.demo.dto.BorrowCreatedEvent;
 import com.example.demo.dto.ChapterCreatedEvent;
 import com.example.demo.dto.ReturnCreatedEvent;
+import com.example.demo.service.CatalogService;
+import com.example.demo.service.LoanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
