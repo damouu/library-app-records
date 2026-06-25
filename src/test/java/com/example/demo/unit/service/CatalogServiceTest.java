@@ -1,10 +1,10 @@
 package com.example.demo.unit.service;
 
 import com.example.demo.dto.ChapterCreatedEvent;
+import com.example.demo.mapper.ChapterMapper;
 import com.example.demo.model.ChapterProjection;
 import com.example.demo.repository.ChapterRepository;
 import com.example.demo.service.CatalogService;
-import com.example.demo.service.KafkaPayloadBuilderService;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ class CatalogServiceTest {
     private ChapterRepository chapterRepository;
 
     @Mock
-    private KafkaPayloadBuilderService payloadBuilderService;
+    private ChapterMapper chapterMapper;
 
     @InjectMocks
     private CatalogService catalogService;
@@ -30,17 +30,11 @@ class CatalogServiceTest {
     @Test
     @DisplayName("Should save chapter projection when chapter created event is received")
     void insertNewChapters_success() {
-
         ChapterCreatedEvent event = Instancio.create(ChapterCreatedEvent.class);
-
         ChapterProjection projection = Instancio.create(ChapterProjection.class);
-
-        when(payloadBuilderService.buildChapterEntities(event)).thenReturn(projection);
-
+        when(chapterMapper.toEventData(event)).thenReturn(projection);
         catalogService.insertNewChapters(event);
-
-        verify(payloadBuilderService, times(1)).buildChapterEntities(event);
-
+        verify(chapterMapper, times(1)).toEventData(event);
         verify(chapterRepository, times(1)).save(projection);
     }
 }
