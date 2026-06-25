@@ -4,6 +4,7 @@ import com.example.demo.dto.BorrowCreatedEvent;
 import com.example.demo.dto.BorrowedItem;
 import com.example.demo.dto.ReturnCreatedEvent;
 import com.example.demo.mapper.BorrowRecordItemMapper;
+import com.example.demo.mapper.BorrowRecordMapper;
 import com.example.demo.model.BorrowRecord;
 import com.example.demo.model.BorrowRecordItem;
 import com.example.demo.model.ChapterProjection;
@@ -38,13 +39,17 @@ public class LoanService {
 
     private final ChapterRepository chapterRepository;
 
-    private final KafkaPayloadBuilderService payloadBuilderService;
+    private final BorrowRecordMapper borrowRecordMapper;
 
 
     /**
-     * Borrow books.
+     * Processes a BORROW_CREATED event.
+     * The operation is idempotent:
+     * if the borrow record already exists, the event is ignored.
+     * Creates the borrow aggregate and its associated items
+     * using locally projected chapter data.
      *
-     * @param payload the payload
+     * @param payload BORROW_CREATED event payload
      */
     @Transactional
     public void borrowBooks(BorrowCreatedEvent payload) {
@@ -53,7 +58,7 @@ public class LoanService {
             log.info("Borrow {} already processed", borrowUuid);
             return;
         }
-        BorrowRecord borrow = payloadBuilderService.buildBorrowEntities(payload);
+        BorrowRecord borrow = borrowRecordMapper.toEventData(payload);
         List<UUID> chapterUuids = payload.data().borrowed_items().stream().map(BorrowedItem::chapter_uuid).toList();
         List<ChapterProjection> chapters = chapterRepository.findByChapterUuidIn(chapterUuids);
         if (chapters.size() != chapterUuids.size()) {
@@ -66,11 +71,7 @@ public class LoanService {
     }
 
 
-    /**
-     * Return borrow books.
-     *
-     * @param returnCreatedEvent the return created event
-     */
+
     @Transactional
     public void returnBorrowBooks(ReturnCreatedEvent returnCreatedEvent) {
         UUID borrowUuid = returnCreatedEvent.metadata().event_uuid();
