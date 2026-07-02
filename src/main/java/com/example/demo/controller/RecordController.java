@@ -27,7 +27,7 @@ public class RecordController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping(path = "/api/records", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getHistory(@RequestHeader("X-User-UUID") UUID memberCardUUID, Pageable pageable, @AuthenticationPrincipal Jwt jwt) {
-        String jwtMemberCard = jwt.getClaimAsString("user_memberCardUUID");
+        String jwtMemberCard = jwt.getClaimAsString("member_card_uuid");
         if (!jwtMemberCard.equals(memberCardUUID.toString())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "memberCard UUID mismatch");
         }
