@@ -42,7 +42,7 @@ class BorrowRecordControllerTest {
         Page<BorrowSummaryDTO> page = new PageImpl<>(List.of());
         when(recordService.getHistory(memberCardUUID, pageable)).thenReturn(page);
         Jwt jwt = mock(Jwt.class);
-        when(jwt.getClaimAsString("user_memberCardUUID")).thenReturn(memberCardUUID.toString());
+        when(jwt.getClaimAsString("member_card_uuid")).thenReturn(memberCardUUID.toString());
         ResponseEntity<Page<BorrowSummaryDTO>> response = (ResponseEntity<Page<BorrowSummaryDTO>>) recordController.getHistory(memberCardUUID, pageable, jwt);
         assertEquals(200, response.getStatusCodeValue());
         assertEquals(page, response.getBody());
@@ -54,7 +54,7 @@ class BorrowRecordControllerTest {
     void shouldThrowForbiddenWhenJwtMemberCardDoesNotMatchHeader() {
         UUID memberCardUUID = UUID.randomUUID();
         Pageable pageable = PageRequest.of(0, 10);
-        when(jwt.getClaimAsString("user_memberCardUUID")).thenReturn(UUID.randomUUID().toString());
+        when(jwt.getClaimAsString("member_card_uuid")).thenReturn(UUID.randomUUID().toString());
         ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> recordController.getHistory(memberCardUUID, pageable, jwt));
         assertEquals(HttpStatus.FORBIDDEN, exception.getStatus());
         assertEquals("memberCard UUID mismatch", exception.getReason());
