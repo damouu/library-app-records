@@ -76,9 +76,9 @@ class LoanServiceTest {
         UUID memberCardUuid = UUID.randomUUID();
         ReturnCreatedEvent returnCreatedEvent = new ReturnCreatedEvent(new Metadata("2026-06-21T10:00:00Z", "library-app-catalogue-v1", "CHAPTER_CREATED", UUID.randomUUID()), new ReturnCreatedEventData(memberCardUuid, borrowUuid, "2026-06-21", "2026-07-21", "2026-06-27", false, 0, BigDecimal.valueOf(0), List.of(new BookToDecrement(UUID.randomUUID(), UUID.randomUUID()))));
         BorrowRecord borrowRecord = Instancio.create(BorrowRecord.class);
-        when(borrowRepository.findBorrowByBorrowUuid(returnCreatedEvent.metadata().event_uuid())).thenReturn(Optional.ofNullable(borrowRecord));
+        when(borrowRepository.findBorrowByBorrowUuid(returnCreatedEvent.data().borrow_uuid())).thenReturn(Optional.ofNullable(borrowRecord));
         loanService.returnBorrowBooks(returnCreatedEvent);
-        verify(borrowRepository, times(1)).findBorrowByBorrowUuid(returnCreatedEvent.metadata().event_uuid());
+        verify(borrowRepository, times(1)).findBorrowByBorrowUuid(returnCreatedEvent.data().borrow_uuid());
     }
 
     @Test
