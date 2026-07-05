@@ -71,10 +71,9 @@ public class LoanService {
     }
 
 
-
     @Transactional
     public void returnBorrowBooks(ReturnCreatedEvent returnCreatedEvent) {
-        UUID borrowUuid = returnCreatedEvent.metadata().event_uuid();
+        UUID borrowUuid = returnCreatedEvent.data().borrow_uuid();
         borrowRepository.findBorrowByBorrowUuid(borrowUuid).ifPresentOrElse(record -> {
             record.updateReturnInfo(returnCreatedEvent);
             log.info("Updated borrow record for UUID: {}", borrowUuid);
