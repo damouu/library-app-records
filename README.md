@@ -45,8 +45,6 @@ The service operates asynchronously for event ingestion and acts as the source o
 
 [![Docker Image](https://img.shields.io/docker/v/damou/library-app-records?label=docker&logo=docker)](https://hub.docker.com/repository/docker/damou/library-app-records/general) [![Docker Pulls](https://img.shields.io/docker/pulls/damou/library-app-records?logo=docker)](https://hub.docker.com/repository/docker/damou/library-app-records/general) ![Kafka](https://img.shields.io/badge/Kafka-integrated-orange) ![Prometheus](https://img.shields.io/badge/Prometheus-monitored-blue)
 
-**Docker Hub:** [damou/library-app-records](https://hub.docker.com/repository/docker/damou/library-app-records/general)
-
 ---
 
 ## Responsibilities
