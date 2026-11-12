@@ -39,19 +39,13 @@ The service operates asynchronously for event ingestion and acts as the source o
 
 <!-- Code Quality & Tests -->
 
-[![Tests](https://github.com/damouu/library-app-records/actions/workflows/run-tests.yml/badge.svg?branch=test)](https://github.com/damouu/library-app-records/actions/workflows/run-tests.yml) [![Merge PR](https://github.com/damouu/library-app-records/actions/workflows/merge-pr.yml/badge.svg)](https://github.com/damouu/library-app-records/actions/workflows/merge-pr.yml) [![Prepare](https://github.com/damouu/library-app-records/actions/workflows/prepare.yml/badge.svg)](https://github.com/damouu/library-app-records/actions/workflows/prepare.yml)
+[![Tests](https://github.com/damouu/library-app-records/actions/workflows/run-tests.yml/badge.svg?branch=test)](https://github.com/damouu/library-app-records/actions/workflows/run-tests.yml) [![Merge PR](https://github.com/damouu/library-app-records/actions/workflows/merge-pr.yml/badge.svg)](https://github.com/damouu/library-app-records/actions/workflows/merge-pr.yml) [![Prepare](https://github.com/damouu/library-app-records/actions/workflows/prepare.yml/badge.svg)](https://github.com/damouu/library-app-records/actions/workflows/prepare.yml) [![Codecov](https://codecov.io/gh/damouu/library-app-records/branch/test/graph/badge.svg)](https://codecov.io/gh/damouu/library-app-records) [![Git Tag](https://img.shields.io/github/v/tag/damouu/library-app-records?logo=github)](https://github.com/damouu/library-app-records/tags)
 
-<!-- Coverage -->
+<!-- Docker & Observability -->
 
-[![Codecov](https://codecov.io/gh/damouu/library-app-records/branch/test/graph/badge.svg)](https://codecov.io/gh/damouu/library-app-records)
+[![Docker Image](https://img.shields.io/docker/v/damou/library-app-records?label=docker&logo=docker)](https://hub.docker.com/repository/docker/damou/library-app-records/general) [![Docker Pulls](https://img.shields.io/docker/pulls/damou/library-app-records?logo=docker)](https://hub.docker.com/repository/docker/damou/library-app-records/general) ![Kafka](https://img.shields.io/badge/Kafka-integrated-orange) ![Prometheus](https://img.shields.io/badge/Prometheus-monitored-blue)
 
-<!-- Git / Version -->
-
-[![Git Tag](https://img.shields.io/github/v/tag/damouu/library-app-records?logo=github)](https://github.com/damouu/library-app-records/tags)
-
-<!-- Observability -->
-
-![Kafka](https://img.shields.io/badge/Kafka-integrated-orange) ![Prometheus](https://img.shields.io/badge/Prometheus-monitored-blue)
+**Docker Hub:** [damou/library-app-records](https://hub.docker.com/repository/docker/damou/library-app-records/general)
 
 ---
 
